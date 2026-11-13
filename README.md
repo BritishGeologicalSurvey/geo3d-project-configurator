@@ -219,6 +219,6 @@ By treating project schemas as the authoritative specification, the application 
 
 # Licence
 
-This project is distributed under the licence specified within the repository.
+MIT License
 
-Refer to the project maintainer for licensing and redistribution information.
+Copyright (c) UKRI (British Geological Survey) and the Polish Geological Institute 2026
