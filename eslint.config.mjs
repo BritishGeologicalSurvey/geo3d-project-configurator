@@ -4,7 +4,7 @@ import globals from 'globals';
 
 export default [
   {
-    ignores: ['build/**', 'node_modules/**', 'graphql/**', 'tests/**'],
+    ignores: ['dist/**', 'node_modules/**', 'graphql/**', 'tests/**'],
   },
   {
     languageOptions: {

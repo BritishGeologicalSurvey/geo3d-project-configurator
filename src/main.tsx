@@ -12,13 +12,13 @@ const rootEl = document.getElementById('root');
 if (!rootEl) throw new Error('Failed to find the root element');
 
 createRoot(rootEl).render(
-  <BrowserRouter>
+  <BrowserRouter basename={import.meta.env.BASE_URL}>
     <StrictMode>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <App />
       </ThemeProvider>
     </StrictMode>
-    ,
-  </BrowserRouter>,
+
+  </BrowserRouter>
 );
