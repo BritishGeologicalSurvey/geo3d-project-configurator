@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["resourceType", "items"],
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "projectsList"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "title", "url"],
+        "properties": {
+          "id": {
+            "title": "ID",
+            "description": "Unique identifier for the project. Accepts either an integer (for simple sequential IDs) or a string (for UUIDs or slug-style identifiers such as '77476c3a-9027-4804-9f13-ecfeee0497c5').",
+            "oneOf": [
+              {
+                "title": "Integer",
+                "type": "integer",
+                "description": "Numeric identifier for the project."
+              },
+              {
+                "title": "String",
+                "type": "string",
+                "description": "String-based identifier for the project — commonly a UUID or human-readable slug."
+              }
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "url": {
+            "type": "string",
+            "format": "uri"
+          },
+          "thumbnail": {
+            "type": "string",
+            "format": "uri"
+          },
+          "description": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

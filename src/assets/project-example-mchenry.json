@@ -1,0 +1,664 @@
+{
+  "resourceType": "project",
+  "id": 1,
+  "title": { "en": "Three-dimensional Geologic Model of McHenry County" },
+  "description": {
+    "en": "<p><b>Jason F. Thomason and Donald A. Keefer<br>Illinois State Geological Survey<br>Prairie Research Institute<br>University of Illinois at Urbana-Champaign</b></p><p><b>SUMMARY</b></p><p>Regional 3-D geological models provide the context and framework for detailed investigations of earth-resource assessments. These investigations generally provide the best examples of economic benefits of 3-D mapping and modeling, and, perhaps more significantly, they increase the awareness of the importance of 3-D information to local decision makers. Local 3-D geologic models provide more detailed insights into the geologic complexities that control, for example, local aquifer contamination issues, wetland sustainability, or aggregate distribution.</p><p>McHenry County, Illinois, USA has been motivated to evaluate the potential for additional groundwater withdrawals and long-term protection of shallow sand and gravel aquifers. Unfortunately, the distribution and thickness of these aquifers often vary widely across large geographic regions (e.g. multi-county) and locally (e.g. within local watersheds). Thus, detailed mapping and characterization of these aquifers is needed to understand and appreciate the sensitivity of these aquifers to water withdrawals and contamination. Regional and local two-dimensional (2-D) geologic maps are available to help communities develop water-supply management strategies regarding the sand and gravel aquifers. However, in recent years, 3-D geologic mapping tools and techniques have developed rapidly, and they have allowed communities to implement programs to investigate the 3-D nature of their groundwater supplies, specifically the shallow sand and gravel aquifer systems. This model is a direct result of the increased demand for 3D geologic information and new tools associated with 3D geologic mapping, and it resolves the geologic complexity associated with glacial sand and gravel aquifers at the county scale. It also aims to show the value and versatility of 3D geologic information with regard to water-supply planning and sustainability.</p><p><b>GEOLOGIC FRAMEWORK</b></p><p>Across the landscape, most of the natural resources and ecosystems of McHenry County are a result of glacial activity during the Quaternary Period of geologic time (2.6 mya to 11 kya). Regional topographic ridges and valleys, lowland wetland ecosystems, and locations of modern streams are clear examples of the importance of recent glaciations in shaping modern-day McHenry County. The geologic framework supporting those landscapes and surface water features was summarized by Curry et al. (1997) and modified for this model (Figure 1).</p><p>The oldest Quaternary deposits modeled in this study are glacial deposits of the Illinois Episode (190,000 to 130,000 years ago), which include both the Glasford and Winnebago Formations. Two extensive sequences of Glasford Formation deposits were mapped as part of this study. These deposits include diamicton sediments (i.e. till), sand and gravel sediments deposited by glacial meltwater and silt-rich lake sediments.</p><p>After the Illinois Episode, a period of non-glaciation occurred (130,000-55,000 years ago), which weathered some of the older glacial sediments, and eroded and removed others. During this time, a soil developed on the landscape, and was subsequently buried by younger glacial sediments. That soil, called the Sangamon Paleosol, is commonly preserved in the subsurface throughout McHenry County. That paleosol is often coupled with early Wisconsin-Episode (~55,000-29,000 years ago), younger, organic-rich soils formed in wind-blown silt across the landscape, which are recognized as the Morton-Robein complex sediments. These sediments are not modeled individually, but they are a key marker bed that was used to define the top of Illinois-Episode sediments in the model.</p><p>After the Sangamon inter-glacial period, at least three separate glacial advances during the Wisconsin Episode glaciation (~29,000 to 14,000 years ago) deposited and sculpted most of the sediments and landscapes that we see presently in McHenry County. During this period, a portion of the Laurentide Ice Sheet advanced and retreated through McHenry County at least three times. The Marengo Phase (25,000-23,500 kya) of the Wisconsin-Episode deposited the Tiskilwa Formation throughout the county, and formed the prominent Marengo Moraine in western McHenry County. The Ashmore Tongue of the Henry Formation is the respective outwash deposit, which often is in contact with older outwash deposits of the Illinois Episode. After the retreat of the Marengo Phase, the Livingston Phase (17,500 kya) of glaciation re-advanced and deposited the fine-grained Yorkville Member of the Lemont Formation. Deposition and preservation of these deposits are limited largely to the south-central portion of McHenry County but form the Huntley and Barlina Moraines. The northern extent of these deposits occurs in the subsurface within the Woodstock Quadrangle. The last advance of the Harvard Sublobe in McHenry County was the Woodstock Phase (16,500 kya), which buried younger sediments and formed the Woodstock Moraine from northwest to southeast across the county. The Woodstock Phase deposited the Haeger Member, which is a cobbly, sandy-loam diamicton and constitutes the Woodstock Moraine. The Beverly Tongue of the Henry Formation is the coarse-grained outwash deposits associated with the Woodstock Phase and is most often buried beneath the Haeger Member or younger Henry Formation sediments. Deposits of the Woodstock Phase and the associated morphology dominate the landscape of the northeast half of McHenry County. A more extensive explanation of the nature and character of glacial deposits in McHenry County can be found in Curry et al. (1997).</p><p><img src=\"https://geo3d.pgi.gov.pl/McHenry_County/McHerny_strat_chart.jpg\" width=\"641\" height=\"378\"></p><p>Figure 1. Schematic cross section (oriented east-west) of lithostratigraphic units and associated aquifers in McHenry County (modified from Curry et al., 1997).</p><p><b>REFERENCES</b></p><p>Curry, B.B., R.C. Berg, and R.C. Vaiden, 1997, Geologic Mapping for Environmental Planning: Illinois State Geological Survey Circular 559, 92 pp.</p><br><br>___________________________________________________________________________________<br><br>Visualization: <a target='_blank' href='https://geo3d.pgi.gov.pl/'>Geo3D</a> by <a target='_blank' href='https://www.pgi.gov.pl/'>Polish Geological Institute - National Research Institute</a><br><a target='_blank' href='https://www.pgi.gov.pl/en/'><img src='https://geo3d.pgi.gov.pl/Global_Library/pig_pib_eng_kolor.png' height='50'></a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target='_blank' href='https://www.gov.pl/web/nfosigw-en/'><img src='https://geo3d.pgi.gov.pl/NZ_CFM/logotyp_nfosigw_en.jpg' height='50'></a><br><span style='font-size:10px'>The development of the Geo3D visualization system is funded by the National Fund for Environmental Protection and Water Management.</span>"
+  },
+  "language": "en",
+  "layers": [
+    {
+      "type": "group",
+      "id": -1,
+      "label": { "en": "Holocene" },
+      "color": "#EEEC45",
+      "weight": 0
+    },
+    {
+      "type": "group",
+      "id": 1,
+      "label": { "en": "Upper Wisconsin" },
+      "color": "#FFB592",
+      "weight": 1
+    },
+    {
+      "type": "group",
+      "id": 2,
+      "label": { "en": "Middle Wisconsin" },
+      "color": "#50D0C1",
+      "weight": 2
+    },
+    {
+      "type": "group",
+      "id": 3,
+      "label": { "en": "Lower Wisconsin" },
+      "color": "#50D0C1",
+      "weight": 3
+    },
+    {
+      "type": "group",
+      "id": 4,
+      "label": { "en": "Upper Illinois" },
+      "color": "#E97470",
+      "weight": 4
+    },
+    {
+      "type": "group",
+      "id": 5,
+      "label": { "en": "Lower Illinois" },
+      "color": "#E97470",
+      "weight": 5
+    },
+    {
+      "type": "model",
+      "id": 7,
+      "label": { "en": "Greyslake Peat" },
+      "weight": 7,
+      "groupId": -1,
+      "color": "#7F7F7F",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/GP.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 8,
+      "label": { "en": "Cahokia Formation" },
+      "weight": 8,
+      "groupId": -1,
+      "color": "#FFFF00",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Cah.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 11,
+      "label": { "en": "Equality Formation 2" },
+      "weight": 11,
+      "groupId": 1,
+      "color": "#FF40FF",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Eq_surf.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 10,
+      "label": { "en": "Henry Formation 1" },
+      "weight": 10,
+      "groupId": 1,
+      "color": "#FFC905",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Hen1.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 9,
+      "label": { "en": "Equality Formation 1" },
+      "weight": 9,
+      "groupId": 1,
+      "color": "#F2C0FF",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Eq.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 12,
+      "label": { "en": "Haegar Member, Lemont Fmtn" },
+      "weight": 12,
+      "groupId": 2,
+      "color": "#78A378",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Wh.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 13,
+      "label": { "en": "Beverly Tongue, Henry Fmtn" },
+      "weight": 13,
+      "groupId": 2,
+      "color": "#E6A23F",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Hb.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 14,
+      "label": { "en": "Beverly Tongue - fine facies, Henry Fmtn" },
+      "weight": 14,
+      "groupId": 2,
+      "color": "#AB7942",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Hb_f.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 15,
+      "label": { "en": "Yorkville Member, Lemont Fmtn" },
+      "weight": 15,
+      "groupId": 2,
+      "color": "#79A6D0",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Wy.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 16,
+      "label": { "en": "Unnamed Tongue, Henry Fmtn" },
+      "weight": 16,
+      "groupId": 2,
+      "color": "#FFF3B6",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Hy.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 17,
+      "label": { "en": "Tiskilwa Formation" },
+      "weight": 17,
+      "groupId": 3,
+      "color": "#C1CF84",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Wt.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 18,
+      "label": { "en": "Ashmore Tongue, Henry Fmtn" },
+      "weight": 18,
+      "groupId": 3,
+      "color": "#D49344",
+      "autoload": false,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Ha.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 19,
+      "label": { "en": "Pearl Fmtn" },
+      "weight": 19,
+      "groupId": 4,
+      "color": "#F9B063",
+      "autoload": false,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Pe.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 20,
+      "label": { "en": "Pearl Fmtn - fine facies" },
+      "weight": 20,
+      "groupId": 4,
+      "color": "#C78D4E",
+      "autoload": false,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Pe_f.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 21,
+      "label": { "en": "Winnebago Fmtn" },
+      "weight": 21,
+      "groupId": 4,
+      "color": "#FF8AD8",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Win.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 22,
+      "label": { "en": "Winnebago Fmtn - Sand" },
+      "weight": 22,
+      "groupId": 4,
+      "color": "#DEDB3E",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Wins.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 23,
+      "label": { "en": "Glasford Fmtn 1" },
+      "weight": 23,
+      "groupId": 5,
+      "color": "#FF7E79",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/G1.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 24,
+      "label": { "en": "Glasford Fmtn 1 - Sand" },
+      "weight": 24,
+      "groupId": 5,
+      "color": "#EEE4AB",
+      "autoload": false,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/GS1.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 25,
+      "label": { "en": "Glasford Fmtn 1 - Sand, fine facies" },
+      "weight": 25,
+      "groupId": 5,
+      "color": "#00EA8B",
+      "autoload": false,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/GS1_f.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 26,
+      "label": { "en": "Glasford Fmtn 2" },
+      "weight": 26,
+      "groupId": 5,
+      "color": "#E6726E",
+      "autoload": false,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/G2.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 27,
+      "label": { "en": "Glasford Fmtn 2 - Sand" },
+      "weight": 27,
+      "groupId": 5,
+      "color": "#D39225",
+      "autoload": false,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/GS2.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 28,
+      "label": { "en": "Glasford Fmtn 3" },
+      "weight": 28,
+      "groupId": 5,
+      "color": "#985400",
+      "autoload": false,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/G3.g3d",
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 29,
+      "label": { "en": "Paleozoic bedrock" },
+      "weight": 29,
+      "color": "#FFC0D9",
+      "autoload": false,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Bdrk1.g3d",
+        "voxelId": 0
+      }
+    },
+
+    {
+      "type": "model",
+      "id": 50,
+      "label": { "en": "Water table" },
+      "weight": 50,
+      "color": "#0072ff",
+      "autoload": true,
+      "isVolumeless": true,
+      "src": "https://geo3d.pgi.gov.pl/McHenry_County/exampleData/assets/water_table.ctm"
+    },
+
+    {
+      "type": "well",
+      "id": "99",
+      "label": { "en": "Test holes" },
+      "weight": 99,
+      "isVolumeless": true,
+      "autoload": false,
+      "color": "#000000",
+      "dataColumns": {
+        "en": {
+          "popupColumns": ["NAME", "UWI", "X", "Y", "Z", "TD", "TYPE"],
+          "tooltipColumns": ["NAME", "TD"],
+          "nameColumn": "NAME",
+          "titles": {
+            "NAME": "Name",
+            "UWI": "Well ID",
+            "TD": "Measured depth [ft]",
+            "Z": "Datum [ft a.s.l.]",
+            "X": "Surface X",
+            "Y": "Surface Y"
+          }
+        }
+      },
+      "src": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Testholes_OK.shp",
+      "description": { "en": "<p>BOREHOLES</p>" }
+    },
+
+    {
+      "type": "well",
+      "id": "100",
+      "label": { "en": "Water wells 0-100ft deep" },
+      "weight": 100,
+      "isVolumeless": true,
+      "autoload": false,
+      "color": "#1c3eff",
+      "dataColumns": {
+        "en": {
+          "popupColumns": ["ID", "X", "Y", "Z", "BOTTOM", "LITHO"],
+          "tooltipColumns": ["ID", "BOTTOM", "LITHO"],
+          "nameColumn": "ID",
+          "titles": {
+            "ID": "Well ID",
+            "BOTTOM": "Measured depth [ft]",
+            "Z": "Datum [ft a.s.l.]",
+            "X": "Surface X",
+            "Y": "Surface Y",
+            "LITHO": "Lithology at the bottom"
+          }
+        }
+      },
+      "src": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Water_wells_0-100ft.shp",
+      "description": { "en": "<p>BOREHOLES</p>" }
+    },
+
+    {
+      "type": "well",
+      "id": "101",
+      "label": { "en": "Water wells 100-300ft deep" },
+      "weight": 101,
+      "isVolumeless": true,
+      "autoload": false,
+      "color": "#1c3eff",
+      "dataColumns": {
+        "en": {
+          "popupColumns": ["ID", "X", "Y", "Z", "BOTTOM", "LITHO"],
+          "tooltipColumns": ["ID", "BOTTOM", "LITHO"],
+          "nameColumn": "ID",
+          "titles": {
+            "ID": "Well ID",
+            "BOTTOM": "Measured depth [ft]",
+            "Z": "Datum [ft a.s.l.]",
+            "X": "Surface X",
+            "Y": "Surface Y",
+            "LITHO": "Lithology at the bottom"
+          }
+        }
+      },
+      "src": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Water_wells_100-300ft.shp",
+      "description": { "en": "<p>BOREHOLES</p>" }
+    },
+    {
+      "type": "well",
+      "id": "102",
+      "label": { "en": "Water wells deeper than 300ft" },
+      "weight": 102,
+      "isVolumeless": true,
+      "autoload": false,
+      "color": "#1c3eff",
+      "dataColumns": {
+        "en": {
+          "popupColumns": ["ID", "X", "Y", "Z", "BOTTOM", "LITHO"],
+          "tooltipColumns": ["ID", "BOTTOM", "LITHO"],
+          "nameColumn": "ID",
+          "titles": {
+            "ID": "Well ID",
+            "BOTTOM": "Measured depth [ft]",
+            "Z": "Datum [ft a.s.l.]",
+            "X": "Surface X",
+            "Y": "Surface Y",
+            "LITHO": "Lithology at the bottom"
+          }
+        }
+      },
+      "src": "https://maps.isgs.illinois.edu/geo3d/McHenry_County/assets/Water_wells_deeper_than_300ft.shp",
+      "description": { "en": "<p>BOREHOLES</p>" }
+    }
+  ],
+  "attributes": [
+    {
+      "id": 0,
+      "default": true,
+      "type": "discrete",
+      "name": { "en": "Layers" }
+    }
+  ],
+
+  "voxelGroups": [
+    {
+      "id": 0,
+      "origin": [358483, 4666964],
+      "size": [50.0, 50.0],
+      "zScale": 1.0,
+      "aoEnabled": false,
+      "zShading": 0.8,
+      "borderEnabled": false
+    }
+  ],
+  "config": {
+    "global": {
+      "nearPlane": 5,
+      "farPlane": 10000000,
+      "crs": "EPSG:26916",
+      "isImperial": true,
+      "antialiasing": true,
+      "constcamtargetdist": true,
+      "lineThreshold": 10,
+      "slicing": {
+        "removeDuplicates": true,
+        "epsilon": 0.0001
+      },
+      "bbox": {
+        "min": {
+          "x": 358458,
+          "y": 4666939,
+          "z": 400
+        },
+        "max": {
+          "x": 402258,
+          "y": 4706939,
+          "z": 1200
+        }
+      }
+    },
+    "features": {
+      "tooltips": {
+        "state": true
+      },
+      "cameraViews": {
+        "state": true
+      },
+      "scaleZ": {
+        "state": true,
+        "config": {
+          "min": 1,
+          "max": 50,
+          "default": 10,
+          "step": 1
+        }
+      },
+      "screenshot": {
+        "state": true
+      },
+      "fullscreen": {
+        "state": true
+      },
+      "crosssectX": {
+        "state": true,
+        "config": {
+          "clipLines": true
+        }
+      },
+      "crosssectY": {
+        "state": true,
+        "config": {
+          "clipLines": true
+        }
+      },
+      "crosssectZ": {
+        "state": true,
+        "config": {
+          "clipLines": true
+        }
+      },
+
+      "driller": {
+        "state": true
+      },
+
+      "lineCrossSection": {
+        "state": true
+      },
+      "coordGrid": {
+        "state": true,
+        "config": {
+          "textSize": 11,
+          "boundingOffset": 20,
+          "unitX": 2000,
+          "unitY": 2000,
+          "unitZ": 100,
+          "showOnStart": true
+        }
+      },
+      "mapService": {
+        "state": true,
+        "autoload": false,
+        "opacity": 0.7,
+        "config": {
+          "defaultServices": "OSM",
+          "defaultLevel": 12,
+          "saturation": 1.2,
+          "contrast": 1.0,
+          "brightness": 0.0,
+          "gamma": 0.25
+        }
+      },
+      "isolines": {
+        "state": true,
+        "config": {
+          "interval": 10
+        }
+      }
+    }
+  }
+}

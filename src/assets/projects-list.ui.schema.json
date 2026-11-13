@@ -1,0 +1,48 @@
+{
+  "type": "VerticalLayout",
+  "elements": [
+    {
+      "type": "Group",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/items",
+          "label": "List of projects",
+          "options": {
+            "detail": {
+              "type": "Group",
+              "elements": [
+                {
+                  "type": "Control",
+                  "scope": "#/properties/id",
+                  "options": {
+                    "groupLabel": "ID"
+                  }
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/title"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/url"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/thumbnail"
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/description",
+                  "options": {
+                    "multi": true
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

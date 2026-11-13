@@ -1,0 +1,32 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-primary: #6b705c;
+  --color-primary-light: #a5a58d;
+  --color-primary-extra-light: #d6d6c5;
+  --color-primary-dark: #3a3f2e;
+  --color-secondary: #cb997e;
+  --color-secondary-light: #ddbea9;
+  --color-secondary-dark: #a47148;
+  --color-bg: #f5f3f0;
+  --color-surface: #fff;
+  --color-border: #e6e1dc;
+  --color-text-primary: #2f2f2f;
+  --color-text-secondary: #6b6b6b;
+  --color-success: #7c8c6b;
+  --color-warning: #d4a373;
+  --color-error: #b56576;
+  --color-accent: var(--color-secondary);
+  --color-muted: var(--color-primary-light);
+}
+
+/* stylelint-disable selector-class-pattern */
+.MuiTypography-root {
+  margin-bottom: 8px;
+}
+
+.MuiPaper-root .MuiPaper-root {
+  padding: 12px;
+}
+
+/* stylelint-enable selector-class-pattern */

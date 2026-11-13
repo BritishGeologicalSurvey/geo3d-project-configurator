@@ -1,0 +1,373 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Project",
+  "type": "object",
+  "required": [
+    "resourceType",
+    "id",
+    "title",
+    "language",
+    "layers"
+  ],
+  "$defs": {
+    "MultiLingualText": {
+      "oneOf": [
+        { "type": "string" },
+        { 
+          "type": "object",
+          "patternProperties": {
+            "^[a-z]{2}$": { "type": "string" }
+          }
+        }
+      ]
+    },
+    "Coordinate": {
+      "type": "object",
+      "properties": {
+        "x": { "type": "number" },
+        "y": { "type": "number" },
+        "z": { "type": "number" }
+      },
+      "required": ["x", "y"]
+    },
+    "FeatureToggle": {
+      "type": "object",
+      "properties": {
+        "state": { "type": "boolean" },
+        "config": { "type": "object" },
+        "autoload": { "type": "boolean" },
+        "opacity": { "type": "number" }
+      },
+      "required": ["state"]
+    },
+    "LayerBase": {
+      "type": "object",
+      "properties": {
+        "id": { "type": ["integer", "string"] },
+        "weight": { "type": "integer" },
+        "label": { "$ref": "#/$defs/MultiLingualText" },
+        "groupId": { "type": ["integer", "string"] },
+        "color": { "type": "string" },
+        "merge": { "type": "boolean" },
+        "autoload": { "type": "boolean" },
+        "isVolumeless": { "type": "boolean" },
+        "noData": { "type": "number" }
+      },
+      "patternProperties": {
+        "^[a-z]{2}$": {
+          "type": "object",
+          "properties": {
+            "label": { "type": "string" }
+          }
+        }
+      },
+      "required": ["id", "weight"]
+    }
+  },
+  "properties": {
+    "resourceType": {
+      "const": "project"
+    },
+    "id": {
+      "type": ["integer", "string"]
+    },
+    "title": { "$ref": "#/$defs/MultiLingualText" },
+    "description": { "$ref": "#/$defs/MultiLingualText" },
+    "language": {
+      "type": "string"
+    },
+    "attributes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "default": { "type": "boolean" },
+          "type": { "enum": ["discrete", "continuous"] },
+          "name": { "$ref": "#/$defs/MultiLingualText" },
+          "weight": { "type": "integer" },
+          "unit": { "type": "string" },
+          "pickerUnit": { "type": "string" },
+          "pickerDecimal": { "type": "number" },
+          "decimal": { "type": "number" },
+          "colorRamp": { "type": "string" },
+          "pickerOnly": { "type": "boolean" },
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": { "type": "integer" },
+                "name": { "$ref": "#/$defs/MultiLingualText" }
+              }
+            }
+          }
+        },
+        "required": ["id", "type"]
+      }
+    },
+    "voxelGroups": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "origin": { "type": "array", "items": { "type": "number" }, "minItems": 2 },
+          "size": { "type": "array", "items": { "type": "number" }, "minItems": 2 },
+          "zScale": { "type": "number" },
+          "noData": { "type": "number" },
+          "aoEnabled": { "type": "boolean" },
+          "depthShading": { "type": "number" },
+          "borderEnabled": { "type": "boolean" }
+        },
+        "required": ["id", "origin", "size"]
+      }
+    },
+    "infos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer" },
+          "attributeId": { "type": "integer" },
+          "maps": { "type": "array", "items": { "type": "string" } },
+          "content": {
+            "type": "array",
+            "items": { "type": "object" }
+          }
+        }
+      }
+    },
+    "layers": {
+      "type": "array",
+      "items": {
+        "anyOf": [
+          {
+            "allOf": [
+              { "$ref": "#/$defs/LayerBase" },
+              {
+                "properties": {
+                  "type": { "const": "group" }
+                },
+                "required": ["type"]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              { "$ref": "#/$defs/LayerBase" },
+              {
+                "properties": {
+                  "type": { "const": "model" },
+                  "infoId": { "type": "integer" },
+                  "src": {
+                    "oneOf": [
+                      { "type": "string" },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "format": { "type": "string" },
+                          "type": { "type": "string" },
+                          "indices": { "type": "string" },
+                          "positions": { "type": "string" },
+                          "zScale": { "type": "number" },
+                          "dataType": { "type": "string" },
+                          "bufferSize": { "type": "integer" },
+                          "voxelId": { "type": "integer" },
+                          "parameters": { "type": "array" }
+                        },
+                        "required": ["format"]
+                      }
+                    ]
+                  },
+                  "parameters": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "attributeId": { "type": "integer" },
+                        "itemId": { "type": "integer" },
+                        "name": { "type": "string" },
+                        "noData": { "type": "number" },
+                        "url": { "type": "string" },
+                        "dataType": { "type": "string" }
+                      },
+                      "required": ["attributeId"]
+                    }
+                  },
+                  "data": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": { "type": "string" },
+                        "src": { "type": "string" },
+                        "idColumn": { "type": "string" }
+                      }
+                    }
+                  }
+                },
+                "required": ["type", "src"]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              { "$ref": "#/$defs/LayerBase" },
+              {
+                "properties": {
+                  "type": { "const": "well" },
+                  "src": { "type": "string" },
+                  "description": { "$ref": "#/$defs/MultiLingualText" },
+                  "dataColumns": { "type": "object" },
+                  "link": {
+                    "type": "object",
+                    "properties": {
+                      "title": { "$ref": "#/$defs/MultiLingualText" },
+                      "address": { "$ref": "#/$defs/MultiLingualText" },
+                      "linkColumn": { "type": "string" }
+                    }
+                  }
+                },
+                "required": ["type", "src"]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              { "$ref": "#/$defs/LayerBase" },
+              {
+                "properties": {
+                  "type": { "const": "area" },
+                  "src": { "type": "string" },
+                  "description": { "$ref": "#/$defs/MultiLingualText" }
+                },
+                "required": ["type", "src"]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              { "$ref": "#/$defs/LayerBase" },
+              {
+                "properties": {
+                  "type": { "const": "annotation" },
+                  "annotationType": { "enum": ["text", "flag"] },
+                  "src": { "type": "string" },
+                  "description": { "$ref": "#/$defs/MultiLingualText" },
+                  "position": { "$ref": "#/$defs/Coordinate" }
+                },
+                "required": ["type"]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              { "$ref": "#/$defs/LayerBase" },
+              {
+                "properties": {
+                  "type": { "const": "compound" },
+                  "annotationType": { "enum": ["text", "flag"] },
+                  "src": { "type": "string" },
+                  "description": { "$ref": "#/$defs/MultiLingualText" }
+                },
+                "required": ["type", "annotationType"]
+              }
+            ]
+          },
+          {
+            "allOf": [
+              { "$ref": "#/$defs/LayerBase" },
+              {
+                "properties": {
+                  "type": { "const": "texture" },
+                  "src": { "type": "string" },
+                  "position": { "$ref": "#/$defs/Coordinate" },
+                  "width": { "type": "number" },
+                  "height": { "type": "number" },
+                  "opacity": { "type": "number" }
+                },
+                "required": ["type", "src", "position", "width", "height"]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "config": {
+      "type": "object",
+      "properties": {
+        "global": {
+          "type": "object",
+          "properties": {
+            "crs": { "type": "string" },
+            "nearPlane": { "type": "number" },
+            "farPlane": { "type": "number" },
+            "antialiasing": { "type": "boolean" },
+            "constcamtargetdist": { "type": "boolean" },
+            "oneSideMaterial": { "type": "boolean" },
+            "lineThreshold": { "type": "number" },
+            "light": {
+              "type": "object",
+              "properties": {
+                "shadingType": { "type": "string" },
+                "ambient": { "type": "number" },
+                "zShading": { "type": "number" },
+                "intensity": { "type": "number" }
+              }
+            },
+            "bbox": {
+              "type": "object",
+              "properties": {
+                "min": { "$ref": "#/$defs/Coordinate" },
+                "max": { "$ref": "#/$defs/Coordinate" }
+              }
+            },
+            "slicing": {
+              "type": "object",
+              "properties": {
+                "removeDuplicates": { "type": "boolean" },
+                "epsilon": { "type": "number" }
+              }
+            }
+          }
+        },
+        "features": {
+          "type": "object",
+          "properties": {
+            "bgColor": { "$ref": "#/$defs/FeatureToggle" },
+            "boreholes": { "$ref": "#/$defs/FeatureToggle" },
+            "cameraViews": { "$ref": "#/$defs/FeatureToggle" },
+            "coordGrid": { "$ref": "#/$defs/FeatureToggle" },
+            "coordinates": { "$ref": "#/$defs/FeatureToggle" },
+            "dipAzimuth": { "$ref": "#/$defs/FeatureToggle" },
+            "dragMove": { "$ref": "#/$defs/FeatureToggle" },
+            "driller": { "$ref": "#/$defs/FeatureToggle" },
+            "extraLogo": { "$ref": "#/$defs/FeatureToggle" },
+            "fullscreen": { "$ref": "#/$defs/FeatureToggle" },
+            "hypsometricTints": { "$ref": "#/$defs/FeatureToggle" },
+            "info": { "$ref": "#/$defs/FeatureToggle" },
+            "infoPicker": { "$ref": "#/$defs/FeatureToggle" },
+            "lineCrossection": { "$ref": "#/$defs/FeatureToggle" },
+            "lineCrossSection": { "$ref": "#/$defs/FeatureToggle" },
+            "mapService": { "$ref": "#/$defs/FeatureToggle" },
+            "multiLingual": { "$ref": "#/$defs/FeatureToggle" },
+            "parametricTints": { "$ref": "#/$defs/FeatureToggle" },
+            "print": { "$ref": "#/$defs/FeatureToggle" },
+            "rose": { "$ref": "#/$defs/FeatureToggle" },
+            "scaleZ": { "$ref": "#/$defs/FeatureToggle" },
+            "screenshot": { "$ref": "#/$defs/FeatureToggle" },
+            "splashscreen": { "$ref": "#/$defs/FeatureToggle" },
+            "tooltips": { "$ref": "#/$defs/FeatureToggle" },
+            "crosssectX": { "$ref": "#/$defs/FeatureToggle" },
+            "crosssectY": { "$ref": "#/$defs/FeatureToggle" },
+            "crosssectZ": { "$ref": "#/$defs/FeatureToggle" },
+            "crossectX": { "$ref": "#/$defs/FeatureToggle" },
+            "crossectY": { "$ref": "#/$defs/FeatureToggle" },
+            "crossectZ": { "$ref": "#/$defs/FeatureToggle" }
+          }
+        }
+      }
+    }
+  }
+}

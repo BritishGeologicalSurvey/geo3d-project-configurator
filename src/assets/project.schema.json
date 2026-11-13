@@ -1,0 +1,1114 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Project",
+  "description": "A Geo3D project descriptor. Defines a complete 3D geological scene — its layers (volumes, surfaces, wells, annotations, textures), the attributes that can be queried or styled across them, the voxel grids that underpin volumetric models, and the viewer configuration (camera, lighting, coordinate reference system, and toggleable UI features).",
+  "type": "object",
+  "required": ["resourceType", "id", "title", "language", "layers", "attributes"],
+  "$defs": {
+    "MultiLingualText": {
+      "title": "Multiple",
+      "description": "A map from ISO 639-1 language code (e.g. 'en', 'pl') to the localised string.",
+      "type": "object",
+      "default": {},
+      "patternProperties": {
+        "^[a-z]{2}$": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "Coordinate": {
+      "title": "Coordinate",
+      "description": "A point in the project's coordinate reference system (CRS). The CRS is set in 'config.global.crs'. The Z component is optional and may represent elevation or depth depending on project convention.",
+      "type": "object",
+      "properties": {
+        "x": {
+          "type": "number",
+          "title": "X",
+          "description": "X coordinate in the project CRS — typically easting."
+        },
+        "y": {
+          "type": "number",
+          "title": "Y",
+          "description": "Y coordinate in the project CRS — typically northing."
+        },
+        "z": {
+          "type": "number",
+          "title": "Z",
+          "description": "Z coordinate representing elevation (positive up) or depth (positive down), depending on the project convention. Optional for 2D points such as map overlays."
+        }
+      },
+      "required": ["x", "y"]
+    },
+    "FeatureToggle": {
+      "title": "Feature Toggle",
+      "description": "Per-feature configuration block under 'config.features'. Controls whether a feature (e.g. cross-section, screenshot, coordinate grid) is exposed in the viewer UI, whether it is active by default, its opacity if applicable, and any feature-specific options passed via 'config'.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "state": {
+          "type": "boolean",
+          "title": "State",
+          "description": "Whether the feature is enabled and visible in the viewer UI."
+        },
+        "autoload": {
+          "type": "boolean",
+          "title": "Autoload",
+          "description": "If true, the feature is activated automatically when the project loads, rather than waiting for the user to enable it."
+        },
+        "opacity": {
+          "type": "number",
+          "title": "Opacity",
+          "description": "Default opacity (0.0 transparent to 1.0 opaque) for features that render imagery or overlays (e.g. 'mapService')."
+        },
+        "config": {
+          "type": "object",
+          "description": "Feature-specific configuration. Populated by the Loader application from form input rather than authored by hand — users do not normally interact with this directly. The shape is intentionally generic; concrete keys consumed depend on the feature.",
+          "additionalProperties": {
+            "type": ["string", "number", "boolean"]
+          }
+        }
+      },
+      "required": ["state"]
+    },
+    "LayerBase": {
+      "type": "object",
+      "title": "Layer Base",
+      "description": "Common properties shared by every layer type (group, model, well, area, annotation, compound, texture). Concrete layer types extend this with their own type-specific fields.",
+      "properties": {
+        "id": {
+          "type": ["integer", "string"],
+          "title": "ID",
+          "description": "Unique identifier for the layer within the project. Used as the target of 'groupId' references and as a stable key for UI state."
+        },
+        "weight": {
+          "type": "integer",
+          "title": "Weight",
+          "description": "Ordering priority of the layer in the UI panel and in render order. Lower weights appear first in the layer list; higher weights are drawn on top when layers overlap. Negative values are permitted (commonly used for group headers)."
+        },
+        "label": {
+          "title": "Label",
+          "description": "Display name of the layer shown in the layer panel.",
+          "$ref": "#/$defs/MultiLingualText"
+        },
+        "groupId": {
+          "type": ["integer", "string"],
+          "title": "Group ID",
+          "description": "Identifier of the parent group layer (a layer with type 'group') this layer belongs to. Used to nest layers under collapsible headings in the UI."
+        },
+        "color": {
+          "type": "string",
+          "title": "Colour",
+          "format": "color",
+          "pattern": "^#([A-Fa-f0-9]{6})$",
+          "description": "Default display colour for the layer as a CSS hex string (e.g. '#BC8F8F'). Used when no attribute-based styling (colour ramp or category mapping) is active."
+        },
+        "merge": {
+          "type": "boolean",
+          "title": "Merge",
+          "description": "If true, this layer's geometry is merged with other compatible layers during rendering to reduce draw calls. Useful for many small surfaces sharing the same material."
+        },
+        "autoload": {
+          "type": "boolean",
+          "title": "Autoload",
+          "description": "If true, the layer is fetched and rendered automatically when the project opens. If false, the user must enable it manually from the layer panel."
+        },
+        "isVolumeless": {
+          "type": "boolean",
+          "title": "Is Volumeless",
+          "description": "Indicates the layer has no enclosed volume — e.g. a triangulated surface, fault plane, or line set. Volumeless layers are not eligible for solid-volume operations such as cross-section fill."
+        },
+        "noData": {
+          "type": "number",
+          "title": "No Data",
+          "description": "Sentinel value indicating missing or undefined data within the layer. Cells or samples equal to this value are skipped during rendering and excluded from attribute queries."
+        }
+      },
+      "patternProperties": {
+        "^(?!id$)[a-z]{2}$": {
+          "type": "object",
+          "description": "Per-language overrides keyed by ISO 639-1 code (e.g. 'en', 'pl'). Provides a localised 'label' that takes precedence over the layer-level 'label' when the UI language matches. Largely redundant with the 'MultiLingualText' form of 'label' — prefer the latter for new projects.",
+          "properties": {
+            "label": { "type": "string" }
+          }
+        }
+      },
+      "required": ["id", "weight"]
+    }
+  },
+  "properties": {
+    "resourceType": {
+      "const": "project",
+      "title": "Resource Type",
+      "description": "Discriminator identifying this file as a project descriptor. Must be the literal string 'project'. Other resource files (e.g. project lists) use different values such as 'projectsList'."
+    },
+
+    "id": {
+      "title": "Project ID",
+      "description": "Please provide a unique identifier for your model. This may be an identifier which you use to distinguish your models in your own organisation.",
+      "type": ["integer"]
+    },
+    "title": {
+      "title": "Project Title",
+      "description": "Please enter the title of your model.",
+      "$ref": "#/$defs/MultiLingualText"
+    },
+    "description": {
+      "title": "Description",
+      "description": "Please provide a description of your model including details such as geological focus, purpose, scale, modelling team, any interesting facts to make the user aware.",
+      "$ref": "#/$defs/MultiLingualText"
+    },
+    "language": {
+      "type": "string",
+      "title": "Default Language",
+      "format": "iso639-1-language",
+      "description": "Please enter your default language using the two-letter ISO 639 standard."
+    },
+    "attributes": {
+      "title": "Attributes",
+      "description": "The default entry here relates to the geological layers in your model. If you have different properties held in your model then these can be created here.",
+      "type": "array",
+      "minItems": 1,
+      "default": [
+        {
+          "id": 0,
+          "type": "discrete",
+          "default": true,
+          "name": { "en": "" },
+          "weight": 0
+        }
+      ],
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "Attribute ID",
+            "description": "Unique identifier for the attribute within the project, referenced by layers and info pickers."
+          },
+          "default": {
+            "type": "boolean",
+            "title": "Default",
+            "description": "If true, this attribute is selected as the active styling attribute when the project first loads."
+          },
+          "type": {
+            "enum": ["discrete", "continuous"],
+            "title": "Attribute Type",
+            "description": "'discrete' for categorical values rendered with a category-to-colour mapping (see 'items'). 'continuous' for numeric values rendered with a colour ramp (see 'colorRamp')."
+          },
+          "name": {
+            "title": "Name",
+            "description": "Display name of the attribute, shown in the attribute selector and legend.",
+            "$ref": "#/$defs/MultiLingualText"
+          },
+          "weight": {
+            "type": "integer",
+            "title": "Weight",
+            "description": "Ordering priority when multiple attributes are listed in the UI. Lower weights appear first."
+          },
+          "unit": {
+            "type": "string",
+            "title": "Unit",
+            "description": "Measurement unit of the attribute (e.g. 'm', 'mD', '°C'). Displayed alongside values in legends and labels."
+          },
+          "pickerUnit": {
+            "type": "string",
+            "title": "Picker Unit",
+            "description": "Unit displayed in the info picker when querying this attribute. Use when the picker should show a different unit from the legend (e.g. converted display unit)."
+          },
+          "pickerDecimal": {
+            "type": "number",
+            "title": "Picker Decimal Places",
+            "description": "Number of decimal places shown for this attribute's values in the info picker."
+          },
+          "decimal": {
+            "type": "number",
+            "title": "Decimal Places",
+            "description": "Number of decimal places used when rendering attribute values in legends, labels, and tooltips."
+          },
+          "colorRamp": {
+            "type": "string",
+            "title": "Colour Ramp",
+            "description": "Name of the colour gradient used to visualise continuous attribute values (e.g. 'viridis', 'plasma', 'RdYlBu'). Ignored for discrete attributes."
+          },
+          "pickerOnly": {
+            "type": "boolean",
+            "title": "Picker Only",
+            "description": "If true, the attribute is only available in the info picker and is not selectable as the active rendering attribute. Useful for metadata fields that should be query-able but not used for styling."
+          },
+          "items": {
+            "type": "array",
+            "title": "Items",
+            "description": "For discrete attributes, the list of category values. Each item has its own 'id' (the value stored in the data) and a localised 'name' (shown in the legend). Item 'id's are referenced by 'Model.parameters[].itemId'.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "title": "Item ID",
+                  "description": "Numeric value of this category as stored in the layer data."
+                },
+                "name": {
+                  "title": "Item Name",
+                  "description": "Display name of this category in the legend.",
+                  "$ref": "#/$defs/MultiLingualText"
+                }
+              }
+            }
+          }
+        },
+        "required": ["id", "type"]
+      }
+    },
+    "voxelGroups": {
+      "title": "Voxel Groups",
+      "description": "Geometry definitions for SGrid g3d-format layers (and the voxel-grid layers that share the same regular framework). Each entry establishes a grid origin, cell size, vertical exaggeration, and shading behaviour, and is referenced by 'Model.src.voxelId' from layers that consume it.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "ID",
+            "description": "Unique identifier for the voxel group, referenced by 'Model.src.voxelId'."
+          },
+          "origin": {
+            "type": "array",
+            "items": { "type": "number" },
+            "minItems": 2,
+            "title": "Origin",
+            "description": "Origin point of the voxel grid in project CRS coordinates, as '[x, y]' or '[x, y, z]'. This is the corner from which cell offsets are measured."
+          },
+          "size": {
+            "type": "array",
+            "items": { "type": "number" },
+            "minItems": 2,
+            "title": "Cell Size",
+            "description": "Size of a single voxel cell in CRS units, as '[dx, dy]' or '[dx, dy, dz]'. For example '[100.0, 100.0, 0.5]' means 100 × 100 m cells in plan with 0.5 m vertical resolution. Not to be confused with the number of cells in each dimension — that is implicit in the data file."
+          },
+          "zScale": {
+            "type": "number",
+            "title": "Z Scale",
+            "description": "Multiplier applied to the vertical (Z) dimension when computing geometry, in addition to any user-controlled scaleZ. Typically '1.0'."
+          },
+          "noData": {
+            "type": "number",
+            "title": "No Data",
+            "description": "Sentinel value indicating an empty or undefined voxel. Cells equal to this value are not rendered."
+          },
+          "aoEnabled": {
+            "type": "boolean",
+            "title": "Ambient Occlusion Enabled",
+            "description": "Enables ambient occlusion shading on this voxel group to enhance depth perception, at some performance cost."
+          },
+          "depthShading": {
+            "type": "number",
+            "title": "Depth Shading",
+            "description": "Intensity of depth-based shading darkening (0.0 disabled). Alias commonly written as 'zShading' in older project files — viewers should accept both."
+          },
+          "borderEnabled": {
+            "type": "boolean",
+            "title": "Border Enabled",
+            "description": "If true, draws visible borders around individual voxels for improved cell separation. Useful at coarse resolutions; usually disabled for dense grids."
+          }
+        },
+        "required": ["id", "origin", "size"]
+      }
+    },
+    "infos": {
+      "title": "Info Picker Configurations",
+      "description": "This tool displays attribute values and metadata at a clicked location on the model.",
+      "additionalProperties": false,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "title": "ID",
+            "description": "Unique identifier for the info configuration, referenced by 'Model.infoId'."
+          },
+          "attributeId": {
+            "type": "integer",
+            "title": "Attribute ID",
+            "description": "ID of the attribute (in the project's top-level 'attributes' list) whose values are displayed by this picker."
+          },
+          "maps": {
+            "type": "array",
+            "title": "Maps",
+            "description": "List of URL templates for external map services or imagery that should be opened from within the info popup (e.g. linking out to a regional borehole map at the picked coordinates). Templates typically support placeholders for the picked X/Y/Z.",
+            "items": { "type": "string" }
+          },
+          "content": {
+            "type": "array",
+            "title": "Content",
+            "description": "Additional static key/value pairs shown in the info popup alongside the queried attribute value — for example data source, vintage, or contact information.",
+            "items": {
+              "type": "object",
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "title": "Key",
+                  "description": "Label shown in the info popup."
+                },
+                "value": {
+                  "type": "string",
+                  "title": "Value",
+                  "description": "Value or URL shown next to the key."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "layers": {
+      "type": "array",
+      "title": "Layers",
+      "description": "Ordered collection of layers that make up the geological scene. Layers may be groups (organisational headers), models (volumes, surfaces, structured grids), wells (boreholes), areas (polygonal overlays), annotations (labels and flags), compound layers, or textures (image overlays). The 'type' field discriminates between them.",
+      "items": {
+        "type": "object",
+        "discriminator": {
+          "propertyName": "type"
+        },
+
+        "oneOf": [
+          {
+            "title": "Group",
+            "type": "object",
+            "description": "An organisational layer with no geometry of its own. Other layers reference it via 'groupId' to nest under a collapsible heading in the UI.",
+            "required": ["type"],
+            "properties": {
+              "type": { "const": "group", "default": "group" }
+            },
+
+            "allOf": [
+              { "$ref": "#/$defs/LayerBase", "type": "object", "required": ["id"] },
+
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "const": "group",
+                    "default": "group",
+                    "title": "Type",
+                    "description": "Discriminator. Must be 'group'."
+                  }
+                },
+                "required": ["type"]
+              }
+            ]
+          },
+          {
+            "title": "Model",
+            "type": "object",
+            "description": "A 3D geological model layer — a voxel volume, structured grid, or triangulated surface. The geometry is fetched from 'src', and attribute overlays (e.g. lithology codes per voxel) come from 'parameters'.",
+            "required": ["type"],
+            "properties": {
+              "type": { "const": "model", "default": "model" }
+            },
+
+            "allOf": [
+              { "$ref": "#/$defs/LayerBase", "type": "object", "required": ["id"] },
+
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "const": "model",
+                    "default": "model",
+                    "title": "Type",
+                    "description": "Discriminator. Must be 'model'."
+                  },
+                  "infoId": {
+                    "type": "integer",
+                    "title": "Info ID",
+                    "description": "Reference to an entry in the top-level 'infos' array, defining what the info picker shows when querying this model."
+                  },
+                  "src": {
+                    "title": "Source",
+                    "description": "Data source for the model. May be either a plain URL string (for simple single-file geometry such as a CTM surface mesh) or an object describing a structured fetch (for voxel volumes and structured grids).",
+                    "oneOf": [
+                      {
+                        "title": "SRC String",
+                        "type": "string",
+                        "description": "Direct URL to the geometry file, e.g. a '.ctm' triangulated surface."
+                      },
+                      {
+                        "title": "SRC Object",
+                        "type": "object",
+                        "description": "Structured source descriptor for voxel grids, structured grids, and multi-part geometry. Specifies the wire format, geometry type, where to fetch the index/position buffers, and which voxel group provides the spatial framework.",
+                        "properties": {
+                          "format": {
+                            "type": "string",
+                            "title": "Format",
+                            "description": "Identifier of the data format / loader to use (e.g. 'geus' for the GEUS/g3d binary format)."
+                          },
+                          "type": {
+                            "type": "string",
+                            "title": "Geometry Type",
+                            "description": "Geometry representation. Common values: 'voxel' (regular volumetric grid), 'sgrid' (structured grid / cornerpoint), 'surface' (triangulated mesh)."
+                          },
+                          "indices": {
+                            "type": "string",
+                            "title": "Indices URL",
+                            "description": "URL of the file containing the cell-index data (voxel occupancy, surface triangle indices, or sgrid topology depending on geometry type)."
+                          },
+                          "positions": {
+                            "type": "string",
+                            "title": "Positions URL",
+                            "description": "URL of the file containing vertex positions, when not implicit from the voxel group. Used for structured grids and surfaces with custom geometry."
+                          },
+                          "zScale": {
+                            "type": "number",
+                            "title": "Z Scale",
+                            "description": "Per-layer vertical scale multiplier applied on top of the voxel group's 'zScale' and the user-controlled scaleZ."
+                          },
+                          "dataType": {
+                            "type": "string",
+                            "title": "Data Type",
+                            "description": "Encoding of the source files. Typically 'binary' (raw little-endian buffers) or 'text' (ASCII / JSON)."
+                          },
+                          "bufferSize": {
+                            "type": "integer",
+                            "title": "Buffer Size",
+                            "description": "Size in bytes of the binary indices buffer. Used to pre-allocate the typed array on the client and to validate the fetch."
+                          },
+                          "voxelId": {
+                            "type": "integer",
+                            "title": "Voxel ID",
+                            "description": "Reference to the 'id' of an entry in the top-level 'voxelGroups' array, providing the grid origin, cell size, and shading parameters for this model."
+                          },
+                          "parameters": {
+                            "title": "Source Parameters",
+                            "description": "Free-form key/value pairs passed to the loader for format-specific options.",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "key": {
+                                  "type": "string",
+                                  "title": "Key"
+                                },
+                                "value": {
+                                  "type": "string",
+                                  "title": "Value"
+                                }
+                              }
+                            }
+                          }
+                        },
+                        "required": ["format"]
+                      }
+                    ]
+                  },
+                  "parameters": {
+                    "type": "array",
+                    "title": "Parameters",
+                    "description": "Attribute-specific data overlays attached to this model. Each entry binds one attribute item (a category for discrete attributes, or a value for continuous ones) to a remote data file that supplies the per-cell values.",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "itemId": {
+                          "type": "integer",
+                          "title": "Item ID",
+                          "description": "ID of the attribute item this overlay supplies values for — references an entry in 'attributes[].items[].id' (for discrete attributes) or the attribute itself (for continuous)."
+                        },
+                        "name": {
+                          "type": "string",
+                          "title": "Name",
+                          "description": "Internal name used to identify this parameter binding within the loader."
+                        },
+                        "noData": {
+                          "type": "number",
+                          "title": "No Data",
+                          "description": "Per-parameter override of the no-data sentinel value, taking precedence over the layer and voxel-group defaults."
+                        },
+                        "url": {
+                          "type": "string",
+                          "title": "URL",
+                          "description": "URL of the attribute data file (typically a binary buffer of per-cell values matching the geometry described by 'src')."
+                        },
+                        "dataType": {
+                          "type": "string",
+                          "title": "Data Type",
+                          "description": "Encoding of the attribute data file ('binary' or 'text')."
+                        }
+                      },
+                      "required": ["attributeId"]
+                    }
+                  },
+                  "data": {
+                    "title": "Data Tables",
+                    "description": "Associated tabular datasets — for example per-cell property tables joined to the model geometry on a key column. Used for richer attribute lookups beyond the per-cell value arrays in 'parameters'.",
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "string",
+                          "title": "ID",
+                          "description": "Identifier of this data table within the layer, used as a reference key by other layer features."
+                        },
+                        "src": {
+                          "type": "string",
+                          "title": "Source URL",
+                          "description": "URL of the tabular data file (typically CSV or JSON)."
+                        },
+                        "idColumn": {
+                          "type": "string",
+                          "title": "ID Column",
+                          "description": "Name of the column in the source file that contains the join key matching the model's cell or feature identifier."
+                        }
+                      }
+                    }
+                  }
+                },
+                "required": ["type", "src"]
+              }
+            ]
+          },
+          {
+            "title": "Well",
+            "type": "object",
+            "description": "A borehole / well layer. Sourced from a tabular file describing one or more wells with their trajectory, lithology log, and any associated metadata. Each well can optionally provide a hyperlink to an external record (e.g. the BGS borehole scan).",
+            "required": ["type"],
+            "properties": {
+              "type": { "const": "well", "default": "well" }
+            },
+            "allOf": [
+              { "$ref": "#/$defs/LayerBase", "type": "object", "required": ["id"] },
+
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "const": "well",
+                    "default": "well",
+                    "title": "Type",
+                    "description": "Discriminator. Must be 'well'."
+                  },
+                  "src": {
+                    "type": "string",
+                    "title": "Source URL",
+                    "description": "URL of the well data file (typically CSV or JSON containing well headers, deviation surveys, and log intervals)."
+                  },
+                  "description": {
+                    "title": "Description",
+                    "description": "Long-form description of this well dataset, shown in the layer info panel.",
+                    "$ref": "#/$defs/MultiLingualText"
+                  },
+                  "dataColumns": {
+                    "type": "object",
+                    "title": "Data Columns",
+                    "description": "Per-language display configuration for the well data table, keyed by ISO 639-1 language code ('en', 'pl', …). Each language entry tells the viewer which columns of the source CSV to show in the hover tooltip and the click popup, which column holds the well's display name, and how raw column names should be localised in the UI.",
+                    "default": {
+                      "en": {
+                        "popupColumns": [],
+                        "tooltipColumns": [],
+                        "nameColumn": "",
+                        "titles": {}
+                      }
+                    },
+                    "additionalProperties": {
+                      "type": "object",
+                      "properties": {
+                        "popupColumns": {
+                          "type": "array",
+                          "title": "Popup Columns",
+                          "description": "Ordered list of column names from the source CSV that are shown in the info popup when a well is clicked.",
+                          "items": { "type": "string" }
+                        },
+                        "tooltipColumns": {
+                          "type": "array",
+                          "title": "Tooltip Columns",
+                          "description": "Ordered list of column names from the source CSV that are shown in the hover tooltip.",
+                          "items": { "type": "string" }
+                        },
+                        "nameColumn": {
+                          "type": "string",
+                          "title": "Name Column",
+                          "description": "Name of the column in the source CSV whose value is used as the well's display name (e.g. the borehole ID column)."
+                        },
+                        "titles": {
+                          "type": "object",
+                          "title": "Titles",
+                          "description": "Mapping from raw column name (as it appears in the CSV) to its localised display label shown in the popup / tooltip — e.g. '{\"depth_m\": \"Depth (m)\"}'.",
+                          "additionalProperties": { "type": "string" }
+                        }
+                      },
+                      "required": ["popupColumns", "tooltipColumns", "nameColumn"]
+                    }
+                  },
+                  "link": {
+                    "type": "object",
+                    "title": "External Link",
+                    "description": "Configuration for an outbound hyperlink shown in the well info popup, allowing the user to open an external record for the picked well.",
+                    "properties": {
+                      "title": {
+                        "title": "Link Title",
+                        "description": "Localised text used as the visible label of the hyperlink (e.g. 'View borehole record').",
+                        "$ref": "#/$defs/MultiLingualText"
+                      },
+                      "address": {
+                        "title": "Link Address",
+                        "description": "URL template for the hyperlink. May contain placeholders substituted from the well row (e.g. the well identifier from 'linkColumn').",
+                        "$ref": "#/$defs/MultiLingualText"
+                      },
+                      "linkColumn": {
+                        "type": "string",
+                        "title": "Link Column",
+                        "description": "Name of the column in the well source file whose value is substituted into the 'address' template to produce the per-well hyperlink."
+                      }
+                    }
+                  }
+                },
+                "required": ["type", "src"]
+              }
+            ]
+          },
+
+          {
+            "title": "Area",
+            "type": "object",
+            "description": "A polygonal or area-based layer — for example a model extent outline, study area boundary, or land-use polygon.",
+            "required": ["type"],
+            "properties": {
+              "type": { "const": "area", "default": "area" }
+            },
+            "allOf": [
+              { "$ref": "#/$defs/LayerBase", "type": "object", "required": ["id"] },
+
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "const": "area",
+                    "default": "area",
+                    "title": "Type",
+                    "description": "Discriminator. Must be 'area'."
+                  },
+                  "src": {
+                    "type": "string",
+                    "title": "Source URL",
+                    "description": "URL of the area geometry source (typically GeoJSON or a similar polygon format)."
+                  },
+                  "description": {
+                    "title": "Description",
+                    "description": "Long-form description of the area, shown in the layer info panel.",
+                    "$ref": "#/$defs/MultiLingualText"
+                  }
+                },
+                "required": ["type", "src"]
+              }
+            ]
+          },
+          {
+            "title": "Annotation",
+            "type": "object",
+            "description": "A point annotation placed at a fixed location in the scene — either a text label or a pin/flag marker. Useful for highlighting features, locations of interest, or referencing external content.",
+            "required": ["type"],
+            "properties": {
+              "type": { "const": "annotation", "default": "annotation" }
+            },
+            "allOf": [
+              { "$ref": "#/$defs/LayerBase", "type": "object", "required": ["id"] },
+
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "const": "annotation",
+                    "default": "annotation",
+                    "title": "Type",
+                    "description": "Discriminator. Must be 'annotation'."
+                  },
+                  "annotationType": {
+                    "enum": ["text", "flag"],
+                    "title": "Annotation Type",
+                    "description": "Rendering style of the annotation. 'text' shows a label, 'flag' shows a pin/marker glyph."
+                  },
+                  "src": {
+                    "type": "string",
+                    "title": "Source",
+                    "description": "For 'text' annotations: URL or inline text of the label content. For 'flag' annotations: URL of the marker icon image."
+                  },
+                  "description": {
+                    "title": "Description",
+                    "description": "Long-form description shown when the annotation is selected.",
+                    "$ref": "#/$defs/MultiLingualText"
+                  },
+                  "position": {
+                    "title": "Position",
+                    "description": "World coordinates where the annotation is anchored, in the project CRS.",
+                    "$ref": "#/$defs/Coordinate"
+                  }
+                },
+                "required": ["type"]
+              }
+            ]
+          },
+          {
+            "title": "Compound",
+            "type": "object",
+            "description": "A multi-annotation layer sourced from a CSV table, where each row contributes one annotation with its own label and position. Uses the annotation rendering styles ('text' for labels, 'flag' for pin markers). Pending further documentation from PGI.",
+            "required": ["type"],
+            "properties": {
+              "type": { "const": "compound", "default": "compound" }
+            },
+            "allOf": [
+              { "$ref": "#/$defs/LayerBase", "type": "object", "required": ["id"] },
+
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "const": "compound",
+                    "default": "compound",
+                    "title": "Type",
+                    "description": "Discriminator. Must be 'compound'."
+                  },
+                  "annotationType": {
+                    "enum": ["text", "flag"],
+                    "title": "Annotation Type",
+                    "description": "Rendering style applied to every entry in the compound layer. 'text' for labels, 'flag' for pin markers."
+                  },
+                  "src": {
+                    "type": "string",
+                    "title": "Source URL",
+                    "description": "URL of a CSV file listing the annotation entries. Each row contributes one annotation, with its own label text and position columns."
+                  },
+                  "description": {
+                    "title": "Description",
+                    "description": "Long-form description of the compound layer, shown in the layer info panel.",
+                    "$ref": "#/$defs/MultiLingualText"
+                  }
+                },
+                "required": ["type", "annotationType"]
+              }
+            ]
+          },
+          {
+            "title": "Texture",
+            "type": "object",
+            "description": "A 2D image overlay placed in 3D space — for example a draped geological map, a historical aerial photograph georeferenced over the terrain, or an annotated diagram. Positioned by its anchor coordinate and sized in CRS units.",
+            "required": ["type"],
+            "properties": {
+              "type": { "const": "texture", "default": "texture" }
+            },
+            "allOf": [
+              { "$ref": "#/$defs/LayerBase", "type": "object", "required": ["id"] },
+
+              {
+                "type": "object",
+                "properties": {
+                  "type": {
+                    "const": "texture",
+                    "default": "texture",
+                    "title": "Type",
+                    "description": "Discriminator. Must be 'texture'."
+                  },
+                  "src": {
+                    "type": "string",
+                    "title": "Source URL",
+                    "description": "URL of the image to use as the texture (typically PNG or JPEG)."
+                  },
+                  "position": {
+                    "title": "Position",
+                    "description": "World coordinates of the texture's anchor point (typically the lower-left or centre, depending on the implementation), in the project CRS.",
+                    "$ref": "#/$defs/Coordinate"
+                  },
+                  "width": {
+                    "type": "number",
+                    "title": "Width",
+                    "description": "Width of the texture in CRS units (e.g. metres)."
+                  },
+                  "height": {
+                    "type": "number",
+                    "title": "Height",
+                    "description": "Height of the texture in CRS units (e.g. metres)."
+                  },
+                  "opacity": {
+                    "type": "number",
+                    "title": "Opacity",
+                    "description": "Default opacity of the texture from 0.0 (fully transparent) to 1.0 (fully opaque)."
+                  }
+                },
+                "required": ["type", "src", "position", "width", "height"]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "config": {
+      "type": "object",
+      "title": "Configuration",
+      "additionalProperties": false,
+      "description": "Viewer configuration — global scene settings (CRS, camera, lighting, bounding box) and per-feature toggles controlling which UI tools are available to the user.",
+      "properties": {
+        "global": {
+          "type": "object",
+          "title": "Global Settings",
+          "additionalProperties": false,
+          "description": "Scene-wide settings affecting the whole project: coordinate reference system, camera clipping, render quality, lighting, and the model bounding box.",
+          "properties": {
+            "crs": {
+              "type": "string",
+              "title": "CRS",
+              "description": "Coordinate Reference System used throughout the project, as an EPSG identifier (e.g. 'EPSG:27700' for British National Grid)."
+            },
+            "nearPlane": {
+              "type": "number",
+              "title": "Near Plane",
+              "description": "Near clipping plane distance for the perspective camera, in CRS units. Geometry closer than this is not rendered."
+            },
+            "farPlane": {
+              "type": "number",
+              "title": "Far Plane",
+              "description": "Far clipping plane distance for the perspective camera, in CRS units. Geometry beyond this is not rendered."
+            },
+            "antialiasing": {
+              "type": "boolean",
+              "title": "Antialiasing",
+              "description": "Enables MSAA-style smoothing of polygon edges. Improves visual quality at some performance cost."
+            },
+            "constcamtargetdist": {
+              "type": "boolean",
+              "title": "Constant Camera Target Distance",
+              "description": "If true, keeps the distance from camera to orbit target constant during navigation (true-orbit behaviour). If false, the camera may move toward or away from the target during pan operations."
+            },
+            "oneSideMaterial": {
+              "type": "boolean",
+              "title": "One Side Material",
+              "description": "If true, surfaces are rendered single-sided — back faces are culled. If false, surfaces are double-sided (visible from both sides), which is generally needed for geological surfaces where the 'inside' is meaningful."
+            },
+            "lineThreshold": {
+              "type": "number",
+              "title": "Line Threshold",
+              "description": "Threshold (in pixels or world units depending on context) controlling when line features collapse or are simplified at distance. Lower values keep more detail at the cost of performance."
+            },
+            "isImperial": {
+              "type": "boolean",
+              "title": "Imperial Measurements",
+              "description": "If true, Imperial units will be used instead of Metric units."
+            },
+            "bbox": {
+              "type": "object",
+              "title": "Bounding Box",
+              "description": "Axis-aligned bounding box of the project's content in CRS coordinates. Used for initial camera framing and as a default extent for cross-section sliders and the coordinate grid.",
+              "properties": {
+                "min": {
+                  "title": "Minimum Corner",
+                  "description": "Minimum (lower-south-west) corner of the bounding box.",
+                  "$ref": "#/$defs/Coordinate"
+                },
+                "max": {
+                  "title": "Maximum Corner",
+                  "description": "Maximum (upper-north-east) corner of the bounding box.",
+                  "$ref": "#/$defs/Coordinate"
+                }
+              }
+            },
+            "slicing": {
+              "type": "object",
+              "title": "Slicing",
+              "description": "Settings controlling how cross-section / slice geometry is generated and post-processed.",
+              "properties": {
+                "removeDuplicates": {
+                  "type": "boolean",
+                  "title": "Remove Duplicates",
+                  "description": "If true, deduplicates coincident vertices and edges in generated slice geometry, reducing z-fighting and improving render performance at the cost of additional preprocessing."
+                },
+                "epsilon": {
+                  "type": "number",
+                  "title": "Epsilon",
+                  "description": "Distance tolerance (in CRS units) used when matching coincident vertices during slice deduplication. Smaller values are stricter."
+                }
+              }
+            }
+          }
+        },
+        "features": {
+          "type": "object",
+          "title": "Features",
+          "additionalProperties": false,
+          "description": "Per-feature toggles for the viewer's UI tools. Each entry follows the 'FeatureToggle' schema and controls whether the tool is shown, whether it is active by default, and any feature-specific options. Setting an entry to '{state: false}' hides the feature entirely.",
+          "properties": {
+            "boreholes": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Boreholes",
+              "description": "Borehole / well overlay tool, typically fetching boreholes from an external WFS service near the camera target."
+            },
+            "cameraViews": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Camera Views",
+              "description": "Preset camera viewpoints (top, north, east, etc.) accessible from the toolbar."
+            },
+            "coordGrid": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Coordinate Grid",
+              "description": "Toggleable 3D coordinate grid drawn around the scene. Config: 'textSize', 'boundingOffset', 'unitX', 'unitY', 'unitZ', 'showOnStart'."
+            },
+
+            "dipAzimuth": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Dip / Azimuth Tool",
+              "description": "Tool for measuring dip and azimuth (strike) of selected surfaces."
+            },
+
+            "driller": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Virtual Driller",
+              "description": "Virtual drilling tool that produces a synthetic borehole log down through the volumetric models at a clicked location."
+            },
+            "extraLogo": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Extra Logo",
+              "description": "Additional logo overlay (e.g. project funder or partner organisation) in the viewer chrome."
+            },
+            "fullscreen": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Fullscreen",
+              "description": "Browser-fullscreen toggle button."
+            },
+
+            "info": {
+              "title": "Project Info Panel",
+              "description": "Panel showing the project description, metadata, and citation.",
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["state"],
+              "properties": {
+                "state": {
+                  "title": "Enabled",
+                  "type": "boolean"
+                },
+                "config": {
+                  "title": "",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "body": {
+                      "$ref": "#/$defs/MultiLingualText",
+                      "title": "Body"
+                    }
+                  }
+                }
+              }
+            },
+
+            "isolines": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Isolines",
+              "description": "Shader-drawn isolines on mesh surface layers (e.g. CTM surfaces). When enabled in the toolbar, CTRL+click on a surface draws an isoline at that elevation. Should be set to '{state: false}' for projects composed of voxel-style (blocky) models, where isolines are not applicable."
+            },
+            "lineCrossection": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Line Cross-Section (legacy spelling)",
+              "description": "Legacy mis-spelling of 'lineCrossSection' retained for backwards compatibility — prefer 'lineCrossSection' in new project files."
+            },
+            "lineCrossSection": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Line Cross-Section",
+              "description": "Free-form line cross-section tool: the user draws a polyline in plan view and the viewer extrudes a vertical section through the models along it."
+            },
+            "mapService": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Map Service",
+              "description": "Base map / WMTS imagery service overlay. Config: 'defaultServices', 'apiKey', 'defaultLevel', 'defaultLayer', 'defaultEPSG', 'prefixEPSG'."
+            },
+            "multiLingual": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Multilingual UI",
+              "description": "Language switcher exposing the available UI translations."
+            },
+
+            "print": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Print",
+              "description": "Print / export-to-PDF toolbar button."
+            },
+            "rose": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Compass Rose",
+              "description": "Compass rose / north indicator overlay."
+            },
+            "scaleZ": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Vertical Exaggeration",
+              "description": "Vertical exaggeration slider. Config: 'min', 'max', 'default', 'step'."
+            },
+            "screenshot": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Screenshot",
+              "description": "Capture a PNG of the current view."
+            },
+            "splashscreen": {
+              "title": "Splash Screen",
+              "description": "Welcome splash screen displayed on project load.",
+              "type": "object",
+              "additionalProperties": false,
+              "required": ["state"],
+              "properties": {
+                "state": {
+                  "title": "Enabled",
+                  "type": "boolean"
+                },
+                "config": {
+                  "title": "",
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "title": {
+                      "$ref": "#/$defs/MultiLingualText",
+                      "title": "Splash Screen Title"
+                    },
+                    "body": {
+                      "$ref": "#/$defs/MultiLingualText",
+                      "title": "Splash Screen Body"
+                    }
+                  }
+                }
+              }
+            },
+            "tooltips": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Tooltips",
+              "description": "Hover tooltips throughout the UI."
+            },
+            "crosssectX": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Cross-Section X",
+              "description": "Axis-aligned cross-section / clipping plane perpendicular to the X axis. Config: 'clipLines' (whether to clip lines as well as filled geometry)."
+            },
+            "crosssectY": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Cross-Section Y",
+              "description": "Axis-aligned cross-section / clipping plane perpendicular to the Y axis."
+            },
+            "crosssectZ": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Cross-Section Z",
+              "description": "Axis-aligned cross-section / clipping plane perpendicular to the Z axis (horizontal slice)."
+            },
+            "crossectX": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Cross-Section X (legacy spelling)",
+              "description": "Legacy mis-spelling of 'crosssectX' (two 's's instead of three) retained for backwards compatibility — prefer 'crosssectX' in new project files."
+            },
+            "crossectY": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Cross-Section Y (legacy spelling)",
+              "description": "Legacy mis-spelling of 'crosssectY' retained for backwards compatibility — prefer 'crosssectY'."
+            },
+            "crossectZ": {
+              "$ref": "#/$defs/FeatureToggle",
+              "title": "Cross-Section Z (legacy spelling)",
+              "description": "Legacy mis-spelling of 'crosssectZ' retained for backwards compatibility — prefer 'crosssectZ'."
+            }
+          }
+        }
+      }
+    }
+  }
+}

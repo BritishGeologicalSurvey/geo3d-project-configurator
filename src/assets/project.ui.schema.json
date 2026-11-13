@@ -1,0 +1,605 @@
+{
+  "type": "VerticalLayout",
+  "elements": [
+    {
+      "type": "Group",
+
+      "elements": [
+        {
+          "type": "VerticalLayout",
+          "elements": [
+            {
+              "type": "Label",
+              "text": "Default Project Language"
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/language"
+            }
+          ]
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/title",
+          "options": {
+            "groupLabel": "Project Title"
+          }
+        },
+        {
+          "type": "Label",
+          "text": "Project ID"
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/id",
+          "options": {
+            "groupLabel": "Project ID"
+          }
+        },
+        {
+          "type": "Control",
+          "scope": "#/properties/description",
+          "options": {
+            "groupLabel": "Project Description",
+            "multi": true,
+            "minRows": 2,
+            "maxRows": 16
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "Group",
+      "label": "Attributes",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/attributes",
+          "options": {
+            "showSortButtons": true,
+            "expandable": false,
+            "detail": {
+              "type": "VerticalLayout",
+              "layout": "table",
+              "elements": [
+                {
+                  "type": "HorizontalLayout",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/id",
+                      "label": "Attribute ID"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/type"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/default"
+                    }
+                  ]
+                },
+                {
+                  "type": "Control",
+                  "scope": "#/properties/name",
+                  "options": {
+                    "groupLabel": "Name"
+                  }
+                },
+
+                {
+                  "type": "Group",
+                  "label": "Display & Units",
+                  "elements": [
+                    {
+                      "type": "HorizontalLayout",
+                      "elements": [
+                        { "type": "Control", "scope": "#/properties/unit" },
+                        { "type": "Control", "scope": "#/properties/pickerUnit" },
+                        { "type": "Control", "scope": "#/properties/colorRamp" }
+                      ]
+                    },
+                    {
+                      "type": "HorizontalLayout",
+                      "elements": [
+                        { "type": "Control", "scope": "#/properties/weight" },
+                        { "type": "Control", "scope": "#/properties/decimal" },
+                        { "type": "Control", "scope": "#/properties/pickerDecimal" }
+                      ]
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/pickerOnly",
+                      "label": "Picker Only"
+                    }
+                  ]
+                },
+
+                {
+                  "type": "Group",
+                  "label": "Discrete Items",
+                  "rule": {
+                    "effect": "SHOW",
+                    "condition": {
+                      "scope": "#/properties/type",
+                      "schema": {
+                        "const": "discrete"
+                      }
+                    }
+                  },
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/items",
+                      "options": {
+                        "expandable": false,
+                        "detail": {
+                          "type": "VerticalLayout",
+                          "elements": [
+                            {
+                              "type": "Control",
+                              "scope": "#/properties/id"
+                            },
+                            {
+                              "type": "Control",
+                              "scope": "#/properties/name",
+                              "options": {
+                                "groupLabel": "Name"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "Group",
+      "label": "Voxel Groups",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/voxelGroups",
+          "label": "Voxel Groups",
+          "options": {
+            "detail": {
+              "type": "VerticalLayout",
+              "elements": [
+                {
+                  "type": "Group",
+                  "label": "Core",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/id",
+                      "label": "ID"
+                    }
+                  ]
+                },
+                {
+                  "type": "Group",
+                  "label": "Geometry",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/origin",
+                      "label": "Origin"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/size",
+                      "label": "Size"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/zScale",
+                      "label": "Z Scale"
+                    }
+                  ]
+                },
+                {
+                  "type": "Group",
+                  "label": "Rendering",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/aoEnabled",
+                      "label": "Ambient Occlusion"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/borderEnabled",
+                      "label": "Border Enabled"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/depthShading",
+                      "label": "Depth Shading"
+                    }
+                  ]
+                },
+                {
+                  "type": "Group",
+                  "label": "Data Handling",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/noData",
+                      "label": "No‑data Value"
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "Group",
+      "label": "Info Picker Options",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/infos",
+          "label": "Info Picker",
+
+          "options": {
+            "detail": {
+              "type": "VerticalLayout",
+              "elements": [
+                {
+                  "type": "Group",
+                  "label": "Core",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/id",
+                      "label": "ID"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/attributeId",
+                      "label": "Attribute ID"
+                    }
+                  ]
+                },
+                {
+                  "type": "Group",
+                  "label": "Maps",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/maps",
+                      "label": "Maps"
+                    }
+                  ]
+                },
+                {
+                  "type": "Group",
+                  "label": "Content",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/content",
+                      "label": "Content",
+                      "options": {
+                        "detail": "GENERATED"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "Group",
+      "label": "Layers",
+      "elements": [
+        {
+          "type": "Control",
+          "scope": "#/properties/layers",
+          "options": {
+            "elementLabelProps": ["id", "type", "label"],
+            "showSortButtons": true
+          },
+          "detail": {
+            "type": "VerticalLayout",
+            "elements": [
+              {
+                "type": "Control",
+                "scope": "#/properties/color",
+                "options": {
+                  "format": "color"
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+
+    {
+      "type": "Categorization",
+      "elements": [
+        {
+          "type": "Category",
+          "label": "Global Config",
+          "elements": [
+            {
+              "type": "HorizontalLayout",
+              "elements": [
+                {
+                  "type": "Group",
+                  "label": "Global Config",
+                  "elements": [
+                    { "type": "Control", "scope": "#/properties/config/properties/global/properties/crs" },
+                    { "type": "Control", "scope": "#/properties/config/properties/global/properties/nearPlane" },
+                    { "type": "Control", "scope": "#/properties/config/properties/global/properties/farPlane" },
+                    { "type": "Control", "scope": "#/properties/config/properties/global/properties/lineThreshold" },
+                    { "type": "Control", "scope": "#/properties/config/properties/global/properties/isImperial" },
+                    { "type": "Control", "scope": "#/properties/config/properties/global/properties/antialiasing" },
+
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/config/properties/global/properties/constcamtargetdist"
+                    },
+                    { "type": "Control", "scope": "#/properties/config/properties/global/properties/oneSideMaterial" }
+                  ]
+                }
+              ]
+            },
+
+            {
+              "type": "VerticalLayout",
+              "elements": [
+                {
+                  "type": "Group",
+                  "label": "Config: Bounding Box",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "label": "Bounding Box Minimum (lower-south-west)",
+                      "scope": "#/properties/config/properties/global/properties/bbox/properties/min"
+                    },
+                    {
+                      "type": "Control",
+                      "label": "Bounding Box Maximum (upper-north-east)",
+                      "scope": "#/properties/config/properties/global/properties/bbox/properties/max"
+                    }
+                  ]
+                },
+                {
+                  "type": "Group",
+                  "label": "Config: Slicing",
+                  "elements": [
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/config/properties/global/properties/slicing/properties/removeDuplicates"
+                    },
+                    {
+                      "type": "Control",
+                      "scope": "#/properties/config/properties/global/properties/slicing/properties/epsilon"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+
+        {
+          "type": "Category",
+          "label": "Global Features",
+          "elements": [
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/splashscreen",
+              "label": "Splash Screen",
+              "options": {
+                "extraInfo": "Welcome splash screen displayed when the project loads."
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/info",
+              "label": "Info Panel",
+              "options": {
+                "extraInfo": "Panel showing the project description, metadata, and citation."
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/coordGrid",
+              "label": "Coordinate Grid",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Toggleable 3D coordinate grid drawn around the scene. Config: 'textSize', 'boundingOffset', 'unitX', 'unitY', 'unitZ', 'showOnStart'."
+              }
+            },
+
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/isolines",
+              "label": "Iso Lines",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Shader-drawn isolines on mesh surface layers (e.g. CTM surfaces). When enabled in the toolbar, CTRL+click on a surface draws an isoline at that elevation. Should be set to '{state: false}' for projects composed of voxel-style (blocky) models, where isolines are not applicable."
+              }
+            },
+
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/tooltips",
+              "label": "Tooltips",
+              "options": { "renderer": "feature-toggle", "extraInfo": "Hover tooltips throughout the UI." }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/multiLingual",
+              "label": "Multilingual",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Language switcher exposing the available UI translations."
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/cameraViews",
+              "label": "Camera Views",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Preset camera viewpoints (top, north, east, etc.) accessible from the toolbar."
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/screenshot",
+              "label": "Screenshot",
+              "options": { "renderer": "feature-toggle", "extraInfo": "Capture a PNG of the current view." }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/fullscreen",
+              "label": "Fullscreen",
+              "options": { "renderer": "feature-toggle", "extraInfo": "Browser-fullscreen toggle button." }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/extraLogo",
+              "label": "Extra Logo",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Additional logo overlay (e.g. project funder or partner organisation) in the viewer chrome."
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/mapService",
+              "label": "Map Service",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Base map / WMTS imagery service overlay. Config: 'defaultServices', 'apiKey', 'defaultLevel', 'defaultLayer', 'defaultEPSG', 'prefixEPSG'."
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/driller",
+              "label": "Driller",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Virtual drilling tool that produces a synthetic borehole log down through the volumetric models at a clicked location."
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/dipAzimuth",
+              "label": "Dip Azimuth",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Tool for measuring dip and azimuth (strike) of selected surfaces."
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/scaleZ",
+              "label": "Z Scale",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Vertical exaggeration slider. Config: 'min', 'max', 'default', 'step'."
+              }
+            },
+
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/crosssectX",
+              "label": "Cross Section X",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Axis-aligned cross-section / clipping plane perpendicular to the X axis. Config: 'clipLines' (whether to clip lines as well as filled geometry)."
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/crosssectY",
+              "label": "Cross Section Y",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Axis-aligned cross-section / clipping plane perpendicular to the Y axis."
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/crosssectZ",
+              "label": "Cross Section Z",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Axis-aligned cross-section / clipping plane perpendicular to the Z axis (horizontal slice)."
+              }
+            },
+
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/crossectX",
+              "label": "Cross Section X (Legacy)",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Legacy mis-spelling of 'crosssectX' (two 's's instead of three) retained for backwards compatibility — prefer 'crosssectX' in new project files."
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/crossectY",
+              "label": "Cross Section Y (Legacy)",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Legacy mis-spelling of 'crosssectY' retained for backwards compatibility — prefer 'crosssectY'."
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/crossectZ",
+              "label": "Cross Section Z (Legacy)",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Legacy mis-spelling of 'crosssectZ' retained for backwards compatibility — prefer 'crosssectZ'."
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/lineCrossSection",
+              "label": "Line Cross Section",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Free-form line cross-section tool: the user draws a polyline in plan view and the viewer extrudes a vertical section through the models along it."
+              }
+            },
+            {
+              "type": "Control",
+              "scope": "#/properties/config/properties/features/properties/lineCrossection",
+              "label": "Line Cross Section (Legacy)",
+              "options": {
+                "renderer": "feature-toggle",
+                "extraInfo": "Legacy mis-spelling of 'lineCrossSection' retained for backwards compatibility — prefer 'lineCrossSection' in new project files."
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

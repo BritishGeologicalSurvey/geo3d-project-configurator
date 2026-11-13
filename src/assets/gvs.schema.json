@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["resourceType", "items"],
+  "properties": {
+    "resourceType": {
+      "type": "string",
+      "const": "gvsLayerConfig"
+    },
+    "items": {
+      "type": "array",
+      "title": "Layers",
+      "items": {
+        "type": "object",
+        "required": ["Name", "Weight", "Geological_Unit", "R", "G", "B", "Group"],
+        "properties": {
+          "Name": {
+            "type": "string",
+            "title": "Name",
+            "description": "Helpful information about this field."
+          },
+          "Weight": {
+            "type": "integer",
+            "title": "Weight",
+            "description": "Helpful information about this field."
+          },
+          "Geological_Unit": {
+            "type": "string",
+            "title": "Geological Unit",
+            "description": "Helpful information about this field."
+          },
+          "R": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255,
+            "title": "Red"
+          },
+          "G": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255,
+            "title": "Green"
+          },
+          "B": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255,
+            "title": "Blue"
+          },
+          "Group": {
+            "type": "string",
+            "title": "Group",
+            "description": "Helpful information about this field."
+          }
+        }
+      }
+    }
+  }
+}

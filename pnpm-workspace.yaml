@@ -1,0 +1,9 @@
+packages: []
+
+allowBuilds:
+  '@swc/core': false
+  esbuild: false
+
+# defines the minimum number of minutes that must pass after a version is published before pnpm will install it
+minimumReleaseAge: 4320 # 72 hours
+

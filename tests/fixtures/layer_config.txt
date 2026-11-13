@@ -1,0 +1,27 @@
+Name	Weight	Geological_Unit	R	G	B	Group
+ALV-XCZSV	1	Alluvium	255	255	0	Superficial Geology
+HEAD-XCZSV	2	Head	153	102	0	Superficial Geology
+HEAD1-XCZSV	3	Head 1	219	176	176	Superficial Geology
+KPGR-XSV	4	Kempton Park Gravel Member	255	255	204	Superficial Geology
+RTDU-XSV	5	River Terrace Deposits	255	102	51	Superficial Geology
+LOFT-XSV	6	Lowestoft Formation Gravel	255	102	102	Superficial Geology
+LOFT-DMTN	7	Lowestoft Formation	102	255	255	Superficial Geology
+GFDUA-XSV	8	Glaciofluvial Deposits (Anglian)	255	51	255	Superficial Geology
+GLLDA-XCZ	9	Glaciolacustrine Deposits (Anglian)	102	102	102	Superficial Geology
+LOFT_1-DMTN	10	Lowestoft Formation 1	0	0	255	Superficial Geology
+WIHG-XSV	11	Winter Hill Gravel Member 	255	153	102	Superficial Geology
+LOFT_2-DMTN	12	Lowestoft Formation 2	0	204	204	Superficial Geology
+WGGR-XSV	13	Westland Green Gravel Member	255	153	0	Superficial Geology
+CWF-XCZSV	14	Clay-With-Flints Formation	153	102	0	Superficial Geology
+LC	15	London Clay Formation	204	0	153	Bedrock Geology
+LMBE	16	Lambeth Group	204	0	153	Bedrock Geology
+SECK	17	Seaford Chalk Formation	153	255	153	Bedrock Geology
+LECH-UPPER	18	Lewes Chalk Formation (Upper)	0	204	153	Bedrock Geology
+TRK	19	Top Rock Bed	255	102	102	Bedrock Geology
+KNCK	20	Kensworth Member	153	204	0	Bedrock Geology
+CKR	21	Chalk Rock Member	255	51	0	Bedrock Geology
+LECH-LOWER	22	Lewes Chalk Formation (Lower)	0	204	51	Bedrock Geology
+NPCH	23	New Pit Chalk Formation	51	255	51	Bedrock Geology
+HCK	24	Holywell/Chalk Unit	102	204	0	Bedrock Geology
+ZZCH	25	Zig Zag Chalk Formation	0	255	153	Bedrock Geology
+WMCH	26	West Melbury Marly Chalk Formation	0	153	102	Bedrock Geology

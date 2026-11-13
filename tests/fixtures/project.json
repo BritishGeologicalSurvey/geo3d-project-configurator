@@ -1,0 +1,315 @@
+{
+  "resourceType": "project",
+  "id": 1,
+  "title": { "en": "Grangemouth" },
+  "description": { "en": "Grangemouth description." },
+  "language": "en",
+  "layers": [
+    {
+      "type": "group",
+      "id": -2,
+      "label": { "en": "Quaternary" },
+      "weight": -2
+    },
+
+    {
+      "type": "model",
+      "id": 1,
+      "label": { "en": "Boulders" },
+      "weight": 1,
+      "groupId": -2,
+      "color": "#BC8F8F",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "voxel",
+        "dataType": "binary",
+        "indices": "https://osgeodev.bgs.ac.uk/browser/3ddata/grangemouth/assets/1.g3d",
+        "bufferSize": 10728,
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 2,
+      "label": { "en": "Clay" },
+      "weight": 2,
+      "groupId": -2,
+      "color": "#009200",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "voxel",
+        "dataType": "binary",
+        "indices": "https://osgeodev.bgs.ac.uk/browser/3ddata/grangemouth/assets/2.g3d",
+        "bufferSize": 11264376,
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 3,
+      "label": { "en": "Diamicton" },
+      "weight": 3,
+      "groupId": -2,
+      "color": "#969696",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "voxel",
+        "dataType": "binary",
+        "indices": "https://osgeodev.bgs.ac.uk/browser/3ddata/grangemouth/assets/3.g3d",
+        "bufferSize": 12484320,
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 4,
+      "label": { "en": "Diamicton" },
+      "weight": 4,
+      "groupId": -2,
+      "color": "#D8A320",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "voxel",
+        "dataType": "binary",
+        "indices": "https://osgeodev.bgs.ac.uk/browser/3ddata/grangemouth/assets/4.g3d",
+        "bufferSize": 781272,
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 5,
+      "label": { "en": "Cobbles" },
+      "weight": 5,
+      "groupId": -2,
+      "color": "#FFCC00",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "voxel",
+        "dataType": "binary",
+        "indices": "https://osgeodev.bgs.ac.uk/browser/3ddata/grangemouth/assets/5.g3d",
+        "bufferSize": 1200,
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 6,
+      "label": { "en": "Peat" },
+      "weight": 6,
+      "groupId": -2,
+      "color": "#9D4E40",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "voxel",
+        "dataType": "binary",
+        "indices": "https://osgeodev.bgs.ac.uk/browser/3ddata/grangemouth/assets/6.g3d",
+        "bufferSize": 87432,
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 7,
+      "label": { "en": "Sand" },
+      "weight": 7,
+      "groupId": -2,
+      "color": "#F3E106",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "voxel",
+        "dataType": "binary",
+        "indices": "https://osgeodev.bgs.ac.uk/browser/3ddata/grangemouth/assets/7.g3d",
+        "bufferSize": 3255672,
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 8,
+      "label": { "en": "Sand and Gravel" },
+      "weight": 8,
+      "groupId": -2,
+      "color": "#E7C316",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "voxel",
+        "dataType": "binary",
+        "indices": "https://osgeodev.bgs.ac.uk/browser/3ddata/grangemouth/assets/8.g3d",
+        "bufferSize": 2935656,
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 9,
+      "label": { "en": "Silt" },
+      "weight": 9,
+      "groupId": -2,
+      "color": "#C2CF5C",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "voxel",
+        "dataType": "binary",
+        "indices": "https://osgeodev.bgs.ac.uk/browser/3ddata/grangemouth/assets/9.g3d",
+        "bufferSize": 3046056,
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 10,
+      "label": { "en": "Soil" },
+      "weight": 10,
+      "groupId": -2,
+      "color": "#C8C8C8",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "voxel",
+        "dataType": "binary",
+        "indices": "https://osgeodev.bgs.ac.uk/browser/3ddata/grangemouth/assets/10.g3d",
+        "bufferSize": 892992,
+        "voxelId": 0
+      }
+    },
+    {
+      "type": "model",
+      "id": 11,
+      "label": { "en": "Bedrock" },
+      "weight": 11,
+      "color": "#0088FF",
+      "autoload": true,
+      "src": {
+        "format": "geus",
+        "type": "sgrid",
+        "dataType": "text",
+        "indices": "https://osgeodev.bgs.ac.uk/browser/3ddata/grangemouth/assets/bedrock.g3d",
+        "voxelId": 1
+      }
+    }
+  ],
+  "attributes": [
+    {
+      "id": 0,
+      "default": true,
+      "type": "discrete",
+      "name": { "en": "Lithology" },
+      "weight": 0
+    }
+  ],
+  "voxelGroups": [
+    {
+      "id": 0,
+      "origin": [279942, 670578, -170.8],
+      "size": [100.0, 100.0, 0.5],
+      "zScale": 1.0,
+      "aoEnabled": false,
+      "zShading": 0.5
+    },
+    {
+      "id": 1,
+      "origin": [279942, 670578],
+      "size": [100.0, 100.0],
+      "zScale": 1.0,
+      "aoEnabled": false,
+      "borderEnabled": false,
+      "zShading": 0.5
+    }
+  ],
+  "config": {
+    "global": {
+      "nearPlane": 100,
+      "farPlane": 10000000,
+      "crs": "EPSG:27700",
+      "antialiasing": true,
+      "constcamtargetdist": true
+    },
+    "features": {
+      "isolines": {
+        "state": false
+      },
+      "tooltips": {
+        "state": true
+      },
+      "dipAzimuth": {
+        "state": true
+      },
+      "cameraViews": {
+        "state": true
+      },
+      "scaleZ": {
+        "state": true,
+        "config": {
+          "min": 1,
+          "max": 100,
+          "default": 10,
+          "step": 1
+        }
+      },
+      "screenshot": {
+        "state": true
+      },
+      "fullscreen": {
+        "state": true
+      },
+      "crosssectX": {
+        "state": true,
+        "config": {
+          "clipLines": true
+        }
+      },
+      "crosssectY": {
+        "state": true,
+        "config": {
+          "clipLines": true
+        }
+      },
+      "crosssectZ": {
+        "state": true,
+        "config": {
+          "clipLines": true
+        }
+      },
+      "driller": {
+        "state": true
+      },
+      "lineCrossSection": {
+        "state": false
+      },
+      "coordGrid": {
+        "state": true,
+        "config": {
+          "textSize": 11,
+          "boundingOffset": 20,
+          "unitX": 2000,
+          "unitY": 2000,
+          "unitZ": 100,
+          "showOnStart": true
+        }
+      },
+      "mapService": {
+        "state": true,
+        "autoload": false,
+        "opacity": 0.8,
+        "config": {
+          "defaultServices": "https://api.os.uk/maps/raster/v1/wmts",
+          "apiKey": "qkUSHA6TXyFUpDNuzdiC3LewrbeN153L",
+          "defaultLevel": 6,
+          "defaultLayer": "Outdoor_27700",
+          "defaultEPSG": "EPSG:3857",
+          "prefixEPSG": true
+        }
+      }
+    }
+  }
+}
